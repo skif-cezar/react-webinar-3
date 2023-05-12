@@ -1,3 +1,5 @@
+import { generateRandomCode } from "./utils";
+
 /**
  * Хранилище состояния приложения
  */
@@ -5,6 +7,8 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
+    this.count = 0; // Количество нажатий на кнопку "Добавить"
+    this.randomNumbersArray = generateRandomCode(8, 100); // Массив с числами от 8 до 100
   }
 
   /**
@@ -42,9 +46,11 @@ class Store {
    * Добавление новой записи
    */
   addItem() {
+    this.count++; // Увеличиваем счётчик
+    
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.state.list.length + 1, title: 'Новая запись'}]
+      list: [...this.state.list, {code: this.randomNumbersArray[this.count - 1], countSelected: 0, title: 'Новая запись'}]
     })
   };
 
@@ -67,8 +73,18 @@ class Store {
     this.setState({
       ...this.state,
       list: this.state.list.map(item => {
+
         if (item.code === code) {
           item.selected = !item.selected;
+          
+          // Отображение количества выделений элемента
+          if(item.selected) {
+            item.countSelected += 1;
+          }
+          
+        } else {
+          // Очищаем все выделения
+          item.selected = false;
         }
         return item;
       })

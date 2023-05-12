@@ -26,3 +26,21 @@ export function createElement(name, props = {}, ...children) {
 
   return element;
 }
+
+/**
+ * Создание уникальных кодов без повторений
+ * 
+ */
+export const generateRandomCode = (start, end) => {
+	const numbers = [];
+  for (let i = start; i <= end; i++){
+    numbers.push(i);
+  }
+
+  for(let i = numbers.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i +1));
+    [numbers[i], numbers[j]] = [numbers[j], numbers[i]];
+  }
+
+  return numbers;
+}
