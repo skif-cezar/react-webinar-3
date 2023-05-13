@@ -1,4 +1,3 @@
-import { generateRandomCode } from "./utils";
 
 /**
  * Хранилище состояния приложения
@@ -8,7 +7,7 @@ class Store {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
     this.count = 0; // Количество нажатий на кнопку "Добавить"
-    this.randomNumbersArray = generateRandomCode(8, 100); // Массив с числами от 8 до 100
+    this.uniqCode = 7; // Код новой записи
   }
 
   /**
@@ -47,10 +46,11 @@ class Store {
    */
   addItem() {
     this.count++; // Увеличиваем счётчик
+    this.uniqCode++; // Увеличиваем код, чтобы он был уникальным
     
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.randomNumbersArray[this.count - 1], countSelected: 0, title: 'Новая запись'}]
+      list: [...this.state.list, {code: this.uniqCode, countSelected: 0, title: 'Новая запись'}]
     })
   };
 
